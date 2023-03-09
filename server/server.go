@@ -110,6 +110,18 @@ func Server(ver string) *chi.Mux {
 		// Create logger with rotated file output
 		logger = zap.New(core)
 
+	} else {
+		fmt.Println("Logging to console ......")
+
+		// Configure logging to output to console
+		core := zapcore.NewCore(
+			zapcore.NewConsoleEncoder(zap.NewDevelopmentEncoderConfig()),
+			zapcore.Lock(os.Stdout),
+			logConf.Level,
+		)
+
+		// Create logger with console output
+		logger = zap.New(core)
 	}
 
 	// default resultPath is current directory from which keploy binary is running
